@@ -797,13 +797,6 @@
       <p style="margin-top: 16px;">In the meantime, trust that you've already taken a powerful step just by putting your hand up.</p>
     </div>
 
-    <!-- EARLY EXIT STATE (no business) -->
-    <div class="success-state" id="early-exit-state">
-      <div class="success-icon">&#128140;</div>
-      <h2>Thanks for your interest</h2>
-      <p>This mentorship is designed for people who already have a business up and running, so it might not be the right fit just yet.</p>
-      <p style="margin-top: 16px;">But I've got your details and <strong>I'll send you an email</strong> with some resources that might help you get started. You're clearly on the right path.</p>
-    </div>
 
     <div class="footer">
       Kelly Wotherspoon
@@ -879,29 +872,6 @@
       }
     }
 
-    async function submitEarlyExit() {
-      const data = {
-        full_name: document.getElementById('full_name').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        phone: document.getElementById('phone').value.trim(),
-        instagram: document.getElementById('instagram').value.trim().replace(/^@/, '') || null,
-        tiktok: document.getElementById('tiktok').value.trim().replace(/^@/, '') || null,
-        has_business: false,
-        status: 'no_business'
-      };
-
-      try {
-        const { error } = await getSupabase().from('applications').insert([data]);
-        if (error) throw error;
-      } catch (err) {
-        console.error('Early exit save error:', err);
-      }
-
-      document.getElementById('form-section').style.display = 'none';
-      document.getElementById('early-exit-state').classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
     // =============================================
     // VALIDATION
     // =============================================
@@ -938,18 +908,16 @@
         const hasBiz = document.querySelector('input[name="has_business"]:checked');
         if (!hasBiz) { document.getElementById('has_business-error').classList.add('visible'); valid = false; return valid; }
 
-        if (hasBiz.value === 'no') {
-          submitEarlyExit();
-          return false;
+        // Only validate business fields if they have a business
+        if (hasBiz.value === 'yes') {
+          const biz = document.getElementById('business_description').value.trim();
+          const rev = document.getElementById('revenue_stage').value;
+          const challenge = document.getElementById('biggest_challenge').value.trim();
+
+          if (!biz || biz.length < 10) { showError('business_description'); valid = false; }
+          if (!rev) { showError('revenue_stage'); valid = false; }
+          if (!challenge || challenge.length < 10) { showError('biggest_challenge'); valid = false; }
         }
-
-        const biz = document.getElementById('business_description').value.trim();
-        const rev = document.getElementById('revenue_stage').value;
-        const challenge = document.getElementById('biggest_challenge').value.trim();
-
-        if (!biz || biz.length < 10) { showError('business_description'); valid = false; }
-        if (!rev) { showError('revenue_stage'); valid = false; }
-        if (!challenge || challenge.length < 10) { showError('biggest_challenge'); valid = false; }
       }
 
       if (step === 3) {
@@ -1006,10 +974,10 @@
         phone: document.getElementById('phone').value.trim(),
         instagram: instagram || null,
         tiktok: tiktok || null,
-        has_business: true,
-        business_description: document.getElementById('business_description').value.trim(),
-        revenue_stage: document.getElementById('revenue_stage').value,
-        biggest_challenge: document.getElementById('biggest_challenge').value.trim(),
+        has_business: document.querySelector('input[name="has_business"]:checked').value === 'yes',
+        business_description: document.getElementById('business_description').value.trim() || null,
+        revenue_stage: document.getElementById('revenue_stage').value || null,
+        biggest_challenge: document.getElementById('biggest_challenge').value.trim() || null,
         areas_of_interest: interests,
         dream_outcome: document.getElementById('dream_outcome').value.trim(),
         investment_readiness: document.querySelector('input[name="investment_readiness"]:checked').value,
