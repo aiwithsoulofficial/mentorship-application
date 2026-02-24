@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work With Kelly - 3 Month Mentorship</title>
+  <meta name="description" content="A deeply personal 3-month mentorship for spiritual entrepreneurs ready to build with soul and strategy.">
+  <meta property="og:title" content="Work With Kelly - 3 Month Mentorship">
+  <meta property="og:description" content="A deeply personal 3-month mentorship for spiritual entrepreneurs ready to build with soul and strategy.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #FBF6F0;
+      --sand: #DECFC7;
+      --sand-light: #EDE6DF;
+      --eucalyptus: #54605C;
+      --eucalyptus-dark: #3D4A46;
+      --eucalyptus-light: #6B7975;
+      --charcoal: #333333;
+      --text: #2D2D2D;
+      --text-muted: #6B6B6B;
+      --white: #FFFFFF;
+      --error: #C4444A;
+      --error-bg: #FDF2F2;
+      --success-green: #4A7A5B;
+      --success-bg: #F0F7F2;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('images/nature-bg.jpg') center/cover no-repeat;
+      opacity: 0.5;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 40px 0 32px;
+    }
+
+    .hero-photo {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 20%;
+      border: 4px solid var(--sand);
+      box-shadow: 0 8px 24px rgba(84, 96, 92, 0.12);
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--eucalyptus-light);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(32px, 7vw, 44px);
+      font-weight: 600;
+      color: var(--charcoal);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* WHAT YOU GET */
+    .details-card {
+      background: var(--white);
+      border: 1px solid var(--sand);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 32px;
+    }
+
+    .details-card h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .detail-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .detail-item:last-child { margin-bottom: 0; }
+
+    .detail-icon {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      background: var(--sand-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    .detail-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .detail-text strong {
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    /* PROGRESS BAR */
+    .progress-container {
+      margin-bottom: 32px;
+    }
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .progress-step {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      opacity: 0.4;
+      transition: all 0.3s ease;
+    }
+
+    .progress-step.active {
+      color: var(--eucalyptus);
+      opacity: 1;
+    }
+
+    .progress-step.done {
+      color: var(--success-green);
+      opacity: 0.7;
+    }
+
+    .progress-bar {
+      height: 3px;
+      background: var(--sand);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--eucalyptus);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--sand);
+      border-radius: 16px;
+      padding: 32px 24px;
+      margin-bottom: 24px;
+    }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    .step-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+
+    .step-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+
+    /* FORM FIELDS */
+    .field {
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+
+    .field label .optional {
+      font-weight: 300;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--sand);
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--eucalyptus);
+      box-shadow: 0 0 0 3px rgba(84, 96, 92, 0.08);
+    }
+
+    .field input.error,
+    .field textarea.error,
+    .field select.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(196, 68, 74, 0.08);
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B6B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    .field-error {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 4px;
+      display: none;
+    }
+
+    .field-error.visible { display: block; }
+
+    /* CHECKBOX PILLS (for interests) */
+    .checkbox-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .checkbox-pill {
+      position: relative;
+    }
+
+    .checkbox-pill input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .checkbox-pill label {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1.5px solid var(--sand);
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .checkbox-pill input:checked + label {
+      background: var(--eucalyptus);
+      border-color: var(--eucalyptus);
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .checkbox-pill label:hover {
+      border-color: var(--eucalyptus-light);
+    }
+
+    /* RADIO PILLS */
+    .radio-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-pill {
+      position: relative;
+    }
+
+    .radio-pill input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .radio-pill label {
+      display: block;
+      padding: 14px 18px;
+      border: 1.5px solid var(--sand);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .radio-pill input:checked + label {
+      border-color: var(--eucalyptus);
+      background: rgba(84, 96, 92, 0.04);
+      font-weight: 500;
+    }
+
+    .radio-pill label:hover {
+      border-color: var(--eucalyptus-light);
+    }
+
+    /* BUTTONS */
+    .form-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 16px 24px;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--eucalyptus);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--eucalyptus-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(84, 96, 92, 0.25);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1.5px solid var(--sand);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--eucalyptus-light);
+      color: var(--text);
+    }
+
+    /* HONEYPOT */
+    .honey-field {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      opacity: 0;
+      height: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    /* SUCCESS STATE */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    .success-state.active { display: block; }
+
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--success-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 32px;
+    }
+
+    .success-state h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+    }
+
+    .success-state p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 440px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    .success-state p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ERROR BANNER */
+    .error-banner {
+      display: none;
+      background: var(--error-bg);
+      border: 1px solid rgba(196, 68, 74, 0.2);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: var(--error);
+      text-align: center;
+    }
+
+    .error-banner.visible { display: block; }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .container { padding: 16px 16px 40px; }
+      .hero { padding: 32px 0 24px; }
+      .form-card { padding: 24px 18px; }
+      .details-card { padding: 24px 18px; }
+      .form-buttons { flex-direction: column-reverse; }
+      .checkbox-pills { gap: 6px; }
+      .checkbox-pill label { padding: 8px 14px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- HERO -->
+    <div class="hero">
+      <img src="images/kelly.jpg" alt="Kelly Wotherspoon" class="hero-photo">
+      <div class="hero-eyebrow">Applications Open</div>
+      <h1>You don't need more information. You need someone in your corner.</h1>
+      <p>3 months of deeply personal mentorship - your health, your energy, your spiritual path, and your business, all held in one place, by someone who actually gets all of it.</p>
+    </div>
+
+    <!-- TRANSFORMATION SECTION -->
+    <div class="details-card">
+      <h2>Everything you need to make massive transformation in your health, happiness, spiritual connection and your business</h2>
+      <div class="detail-item">
+        <div class="detail-icon">&#127793;</div>
+        <div class="detail-text"><strong>A body that supports your ambition</strong> - You stop running on empty and start making decisions from a place of genuine clarity - because we sort your foundations first, naturopathically and energetically.</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">&#128172;</div>
+        <div class="detail-text"><strong>A mentor beside you, not just once a week</strong> - The breakthroughs rarely happen on schedule. Unlimited Telegram access means I'm there for the wobbles, the wins, and the 2pm "what do I do here" moments.</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">&#10024;</div>
+        <div class="detail-text"><strong>A business that feels like you again</strong> - Strategy, soul, human design, AI - whatever thread we pull, we build something that actually fits how you're wired, not a copy of someone else's success.</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">&#127919;</div>
+        <div class="detail-text"><strong>Clarity on who you are and where you're going</strong> - Astrology, tarot, spiritual teaching, full community access - this isn't just business coaching. It's you finally understanding yourself well enough to trust your own next move.</div>
+      </div>
+    </div>
+
+    <!-- FORM SECTION -->
+    <div id="form-section">
+
+      <!-- PROGRESS -->
+      <div class="progress-container">
+        <div class="progress-steps">
+          <span class="progress-step active" data-step="1">About You</span>
+          <span class="progress-step" data-step="2">Your Business</span>
+          <span class="progress-step" data-step="3">What Lights You Up</span>
+          <span class="progress-step" data-step="4">Final Details</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 25%"></div>
+        </div>
+      </div>
+
+      <!-- FORM CARD -->
+      <div class="form-card">
+        <div class="error-banner" id="error-banner"></div>
+
+        <form id="application-form" novalidate>
+
+          <!-- HONEYPOT -->
+          <div class="honey-field">
+            <label for="website_url">Website</label>
+            <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- STEP 1: About You -->
+          <div class="step active" data-step="1">
+            <h3 class="step-title">About You</h3>
+            <p class="step-subtitle">Let's start with the basics.</p>
+
+            <div class="field">
+              <label for="full_name">Full name</label>
+              <input type="text" id="full_name" name="full_name" placeholder="Your full name" required>
+              <div class="field-error" id="full_name-error">Please enter your name</div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required>
+              <div class="field-error" id="email-error">Please enter a valid email</div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone / WhatsApp</label>
+              <input type="tel" id="phone" name="phone" placeholder="+61 400 000 000" required>
+              <div class="field-error" id="phone-error">Please enter your phone number</div>
+            </div>
+
+            <div class="field">
+              <label for="instagram">Instagram handle <span class="optional">(optional)</span></label>
+              <input type="text" id="instagram" name="instagram" placeholder="@yourhandle">
+            </div>
+
+            <div class="field">
+              <label for="tiktok">TikTok handle <span class="optional">(optional)</span></label>
+              <input type="text" id="tiktok" name="tiktok" placeholder="@yourhandle">
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Your Business -->
+          <div class="step" data-step="2">
+            <h3 class="step-title">Your Business</h3>
+            <p class="step-subtitle">Tell me where you're at right now.</p>
+
+            <div class="field">
+              <label>Do you currently have a business?</label>
+              <div class="radio-pills" id="has-business-group">
+                <div class="radio-pill">
+                  <input type="radio" id="has-biz-yes" name="has_business" value="yes" onchange="toggleBusinessFields()">
+                  <label for="has-biz-yes">Yes</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="has-biz-no" name="has_business" value="no" onchange="toggleBusinessFields()">
+                  <label for="has-biz-no">Not yet</label>
+                </div>
+              </div>
+              <div class="field-error" id="has_business-error">Please select an option</div>
+            </div>
+
+            <div id="business-fields" style="display: none;">
+              <div class="field">
+                <label for="business_description">Tell me about your business</label>
+                <textarea id="business_description" name="business_description" placeholder="What do you do? Who do you help? What does your business look like right now?"></textarea>
+                <div class="field-error" id="business_description-error">Please tell me a bit about your business</div>
+              </div>
+
+              <div class="field">
+                <label for="revenue_stage">Where are you at revenue-wise?</label>
+                <select id="revenue_stage" name="revenue_stage">
+                  <option value="">Select one</option>
+                  <option value="just_starting">Just getting started</option>
+                  <option value="under_5k">Under $5K per month</option>
+                  <option value="5k_to_15k">$5K - $15K per month</option>
+                  <option value="15k_plus">$15K+ per month</option>
+                </select>
+                <div class="field-error" id="revenue_stage-error">Please select your revenue stage</div>
+              </div>
+
+              <div class="field">
+                <label for="biggest_challenge">What's your biggest challenge right now?</label>
+                <textarea id="biggest_challenge" name="biggest_challenge" placeholder="What's keeping you stuck, frustrated, or overwhelmed? Be honest - this helps me understand how I can support you."></textarea>
+                <div class="field-error" id="biggest_challenge-error">Please share your biggest challenge</div>
+              </div>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+              <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: What Lights You Up -->
+          <div class="step" data-step="3">
+            <h3 class="step-title">What Lights You Up</h3>
+            <p class="step-subtitle">Select the areas you're most drawn to - pick as many as you like.</p>
+
+            <div class="field">
+              <label>Areas of interest</label>
+              <div class="checkbox-pills" id="interests-group">
+                <div class="checkbox-pill">
+                  <input type="checkbox" id="interest-naturopathy" name="interests" value="Naturopathy & Wellness">
+                  <label for="interest-naturopathy">Naturopathy & Wellness</label>
+                </div>
+                <div class="checkbox-pill">
+                  <input type="checkbox" id="interest-spiritual" name="interests" value="Spiritual Development">
+                  <label for="interest-spiritual">Spiritual Development</label>
+                </div>
+                <div class="checkbox-pill">
+                  <input type="checkbox" id="interest-hd" name="interests" value="Human Design, Astrology & Tarot">
+                  <label for="interest-hd">Human Design, Astrology & Tarot</label>
+                </div>
+                <div class="checkbox-pill">
+                  <input type="checkbox" id="interest-business" name="interests" value="Business Strategy">
+                  <label for="interest-business">Business Strategy</label>
+                </div>
+                <div class="checkbox-pill">
+                  <input type="checkbox" id="interest-ai" name="interests" value="AI & Automation">
+                  <label for="interest-ai">AI & Automation</label>
+                </div>
+              </div>
+              <div class="field-error" id="interests-error">Please select at least one area</div>
+            </div>
+
+            <div class="field">
+              <label for="dream_outcome">What would a dream outcome look like after 3 months together?</label>
+              <textarea id="dream_outcome" name="dream_outcome" placeholder="If everything went perfectly over the next 3 months, what would be different in your life and business?" required></textarea>
+              <div class="field-error" id="dream_outcome-error">Please share your dream outcome</div>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+              <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Final Details -->
+          <div class="step" data-step="4">
+            <h3 class="step-title">Final Details</h3>
+            <p class="step-subtitle">Almost there - just a few more things.</p>
+
+            <div class="field">
+              <label>This mentorship is an investment of $5,555 for 3 months. How are you feeling about that?</label>
+              <div class="radio-pills" id="readiness-group">
+                <div class="radio-pill">
+                  <input type="radio" id="readiness-ready" name="investment_readiness" value="ready">
+                  <label for="readiness-ready">I'm ready - let's do this</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="readiness-chat" name="investment_readiness" value="chat_first">
+                  <label for="readiness-chat">I'd like to chat first before deciding</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="readiness-exploring" name="investment_readiness" value="exploring">
+                  <label for="readiness-exploring">Just exploring for now</label>
+                </div>
+              </div>
+              <div class="field-error" id="readiness-error">Please select an option</div>
+            </div>
+
+            <div class="field">
+              <label for="how_found">How did you find me?</label>
+              <select id="how_found" name="how_found" required>
+                <option value="">Select one</option>
+                <option value="tiktok">TikTok</option>
+                <option value="instagram">Instagram</option>
+                <option value="facebook">Facebook</option>
+                <option value="word_of_mouth">Word of mouth</option>
+                <option value="other">Other</option>
+              </select>
+              <div class="field-error" id="how_found-error">Please let me know how you found me</div>
+            </div>
+
+            <div class="field">
+              <label>Best way to reach you?</label>
+              <div class="radio-pills" id="contact-group">
+                <div class="radio-pill">
+                  <input type="radio" id="contact-telegram" name="preferred_contact" value="telegram">
+                  <label for="contact-telegram">Telegram</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="contact-whatsapp" name="preferred_contact" value="whatsapp">
+                  <label for="contact-whatsapp">WhatsApp</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="contact-email" name="preferred_contact" value="email">
+                  <label for="contact-email">Email</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="contact-phone" name="preferred_contact" value="phone">
+                  <label for="contact-phone">Phone call</label>
+                </div>
+              </div>
+              <div class="field-error" id="contact-error">Please select your preferred contact method</div>
+            </div>
+
+            <div class="field">
+              <label for="anything_else">Anything else you'd like me to know? <span class="optional">(optional)</span></label>
+              <textarea id="anything_else" name="anything_else" placeholder="Anything at all - questions, thoughts, vibes..."></textarea>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+              <button type="submit" class="btn btn-primary" id="submit-btn">Send My Application</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-state" id="success-state">
+      <div class="success-icon">&#10024;</div>
+      <h2>Thank You</h2>
+      <p>Your application is in my hands. I read every single one personally and <strong>I'll be in touch within 48 hours</strong> to chat about whether this is the right fit for both of us.</p>
+      <p style="margin-top: 16px;">In the meantime, trust that you've already taken a powerful step just by putting your hand up.</p>
+    </div>
+
+    <!-- EARLY EXIT STATE (no business) -->
+    <div class="success-state" id="early-exit-state">
+      <div class="success-icon">&#128140;</div>
+      <h2>Thanks for your interest</h2>
+      <p>This mentorship is designed for people who already have a business up and running, so it might not be the right fit just yet.</p>
+      <p style="margin-top: 16px;">But I've got your details and <strong>I'll send you an email</strong> with some resources that might help you get started. You're clearly on the right path.</p>
+    </div>
+
+    <div class="footer">
+      Kelly Wotherspoon
+    </div>
+
+  </div>
+
+  <script>
+    // =============================================
+    // SUPABASE CONFIG
+    // Replace these after creating your Supabase project
+    // =============================================
+    const SUPABASE_URL = 'https://jiquevvzrdavgqonvvug.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppcXVldnZ6cmRhdmdxb252dnVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzIxNzIsImV4cCI6MjA4NzU0ODE3Mn0.e4mYjXj8TGTC0_UCm3QCKGSv8Cl-migIl7reYIKNcW4';
+
+    let _supabase = null;
+    function getSupabase() {
+      if (!_supabase) _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      return _supabase;
+    }
+
+    // =============================================
+    // STEP NAVIGATION
+    // =============================================
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    function updateProgress() {
+      const fill = document.getElementById('progress-fill');
+      fill.style.width = `${(currentStep / totalSteps) * 100}%`;
+
+      document.querySelectorAll('.progress-step').forEach(el => {
+        const step = parseInt(el.dataset.step);
+        el.classList.remove('active', 'done');
+        if (step === currentStep) el.classList.add('active');
+        if (step < currentStep) el.classList.add('done');
+      });
+    }
+
+    function showStep(step) {
+      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+      currentStep = step;
+      updateProgress();
+      // Scroll to top of form
+      document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function nextStep() {
+      clearErrors();
+      if (!validateStep(currentStep)) return;
+      if (currentStep < totalSteps) {
+        showStep(currentStep + 1);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        showStep(currentStep - 1);
+      }
+    }
+
+    // =============================================
+    // BUSINESS QUALIFIER
+    // =============================================
+    function toggleBusinessFields() {
+      const hasBiz = document.querySelector('input[name="has_business"]:checked');
+      const fields = document.getElementById('business-fields');
+      if (hasBiz && hasBiz.value === 'yes') {
+        fields.style.display = 'block';
+      } else {
+        fields.style.display = 'none';
+      }
+    }
+
+    async function submitEarlyExit() {
+      const data = {
+        full_name: document.getElementById('full_name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        instagram: document.getElementById('instagram').value.trim().replace(/^@/, '') || null,
+        tiktok: document.getElementById('tiktok').value.trim().replace(/^@/, '') || null,
+        has_business: false,
+        status: 'no_business'
+      };
+
+      try {
+        const { error } = await getSupabase().from('applications').insert([data]);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Early exit save error:', err);
+      }
+
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('early-exit-state').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // =============================================
+    // VALIDATION
+    // =============================================
+    function showError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const error = document.getElementById(fieldId + '-error');
+      if (input) input.classList.add('error');
+      if (error) {
+        if (message) error.textContent = message;
+        error.classList.add('visible');
+      }
+    }
+
+    function clearErrors() {
+      document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+      document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
+      document.getElementById('error-banner').classList.remove('visible');
+    }
+
+    function validateStep(step) {
+      let valid = true;
+
+      if (step === 1) {
+        const name = document.getElementById('full_name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        if (!name) { showError('full_name'); valid = false; }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('email'); valid = false; }
+        if (!phone || phone.length < 8) { showError('phone'); valid = false; }
+      }
+
+      if (step === 2) {
+        const hasBiz = document.querySelector('input[name="has_business"]:checked');
+        if (!hasBiz) { document.getElementById('has_business-error').classList.add('visible'); valid = false; return valid; }
+
+        if (hasBiz.value === 'no') {
+          submitEarlyExit();
+          return false;
+        }
+
+        const biz = document.getElementById('business_description').value.trim();
+        const rev = document.getElementById('revenue_stage').value;
+        const challenge = document.getElementById('biggest_challenge').value.trim();
+
+        if (!biz || biz.length < 10) { showError('business_description'); valid = false; }
+        if (!rev) { showError('revenue_stage'); valid = false; }
+        if (!challenge || challenge.length < 10) { showError('biggest_challenge'); valid = false; }
+      }
+
+      if (step === 3) {
+        const interests = document.querySelectorAll('input[name="interests"]:checked');
+        const dream = document.getElementById('dream_outcome').value.trim();
+
+        if (interests.length === 0) { showError('interests', 'Please select at least one area'); document.getElementById('interests-error').classList.add('visible'); valid = false; }
+        if (!dream || dream.length < 10) { showError('dream_outcome'); valid = false; }
+      }
+
+      if (step === 4) {
+        const readiness = document.querySelector('input[name="investment_readiness"]:checked');
+        const found = document.getElementById('how_found').value;
+        const contact = document.querySelector('input[name="preferred_contact"]:checked');
+
+        if (!readiness) { document.getElementById('readiness-error').classList.add('visible'); valid = false; }
+        if (!found) { showError('how_found'); valid = false; }
+        if (!contact) { document.getElementById('contact-error').classList.add('visible'); valid = false; }
+      }
+
+      return valid;
+    }
+
+    // =============================================
+    // FORM SUBMISSION
+    // =============================================
+    document.getElementById('application-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      clearErrors();
+
+      if (!validateStep(4)) return;
+
+      // Honeypot check
+      if (document.getElementById('website_url').value) return;
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      // Gather interests
+      const interests = Array.from(
+        document.querySelectorAll('input[name="interests"]:checked')
+      ).map(cb => cb.value);
+
+      // Clean social handles
+      let instagram = document.getElementById('instagram').value.trim();
+      if (instagram.startsWith('@')) instagram = instagram.substring(1);
+      let tiktok = document.getElementById('tiktok').value.trim();
+      if (tiktok.startsWith('@')) tiktok = tiktok.substring(1);
+
+      const data = {
+        full_name: document.getElementById('full_name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        instagram: instagram || null,
+        tiktok: tiktok || null,
+        has_business: true,
+        business_description: document.getElementById('business_description').value.trim(),
+        revenue_stage: document.getElementById('revenue_stage').value,
+        biggest_challenge: document.getElementById('biggest_challenge').value.trim(),
+        areas_of_interest: interests,
+        dream_outcome: document.getElementById('dream_outcome').value.trim(),
+        investment_readiness: document.querySelector('input[name="investment_readiness"]:checked').value,
+        how_found: document.getElementById('how_found').value,
+        preferred_contact: document.querySelector('input[name="preferred_contact"]:checked').value,
+        anything_else: document.getElementById('anything_else').value.trim() || null
+      };
+
+      try {
+        const { error } = await getSupabase()
+          .from('applications')
+          .insert([data]);
+
+        if (error) throw error;
+
+        // Show success
+        document.getElementById('form-section').style.display = 'none';
+        document.getElementById('success-state').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        console.error('Submission error:', err);
+        const banner = document.getElementById('error-banner');
+        banner.textContent = 'Something went wrong sending your application. Please try again or reach out to me directly.';
+        banner.classList.add('visible');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send My Application';
+      }
+    });
+  </script>
+</body>
+</html>
