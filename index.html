@@ -627,18 +627,18 @@
               <label>Do you currently have a business?</label>
               <div class="radio-pills" id="has-business-group">
                 <div class="radio-pill">
-                  <input type="radio" id="has-biz-yes" name="has_business" value="yes" onchange="toggleBusinessFields()">
+                  <input type="radio" id="has-biz-yes" name="has_business" value="yes">
                   <label for="has-biz-yes">Yes</label>
                 </div>
                 <div class="radio-pill">
-                  <input type="radio" id="has-biz-no" name="has_business" value="no" onchange="toggleBusinessFields()">
+                  <input type="radio" id="has-biz-no" name="has_business" value="no">
                   <label for="has-biz-no">Not yet</label>
                 </div>
               </div>
               <div class="field-error" id="has_business-error">Please select an option</div>
             </div>
 
-            <div id="business-fields" style="display: none;">
+            <div id="business-fields">
               <div class="field">
                 <label for="business_description">Tell me about your business</label>
                 <textarea id="business_description" name="business_description" placeholder="What do you do? Who do you help? What does your business look like right now?"></textarea>
@@ -860,19 +860,6 @@
     }
 
     // =============================================
-    // BUSINESS QUALIFIER
-    // =============================================
-    function toggleBusinessFields() {
-      const hasBiz = document.querySelector('input[name="has_business"]:checked');
-      const fields = document.getElementById('business-fields');
-      if (hasBiz && hasBiz.value === 'yes') {
-        fields.style.display = 'block';
-      } else {
-        fields.style.display = 'none';
-      }
-    }
-
-    // =============================================
     // VALIDATION
     // =============================================
     function showError(fieldId, message) {
@@ -908,16 +895,13 @@
         const hasBiz = document.querySelector('input[name="has_business"]:checked');
         if (!hasBiz) { document.getElementById('has_business-error').classList.add('visible'); valid = false; return valid; }
 
-        // Only validate business fields if they have a business
-        if (hasBiz.value === 'yes') {
-          const biz = document.getElementById('business_description').value.trim();
-          const rev = document.getElementById('revenue_stage').value;
-          const challenge = document.getElementById('biggest_challenge').value.trim();
+        const biz = document.getElementById('business_description').value.trim();
+        const rev = document.getElementById('revenue_stage').value;
+        const challenge = document.getElementById('biggest_challenge').value.trim();
 
-          if (!biz || biz.length < 10) { showError('business_description'); valid = false; }
-          if (!rev) { showError('revenue_stage'); valid = false; }
-          if (!challenge || challenge.length < 10) { showError('biggest_challenge'); valid = false; }
-        }
+        if (!biz || biz.length < 10) { showError('business_description'); valid = false; }
+        if (!rev) { showError('revenue_stage'); valid = false; }
+        if (!challenge || challenge.length < 10) { showError('biggest_challenge'); valid = false; }
       }
 
       if (step === 3) {
@@ -975,9 +959,9 @@
         instagram: instagram || null,
         tiktok: tiktok || null,
         has_business: document.querySelector('input[name="has_business"]:checked').value === 'yes',
-        business_description: document.getElementById('business_description').value.trim() || null,
-        revenue_stage: document.getElementById('revenue_stage').value || null,
-        biggest_challenge: document.getElementById('biggest_challenge').value.trim() || null,
+        business_description: document.getElementById('business_description').value.trim(),
+        revenue_stage: document.getElementById('revenue_stage').value,
+        biggest_challenge: document.getElementById('biggest_challenge').value.trim(),
         areas_of_interest: interests,
         dream_outcome: document.getElementById('dream_outcome').value.trim(),
         investment_readiness: document.querySelector('input[name="investment_readiness"]:checked').value,
